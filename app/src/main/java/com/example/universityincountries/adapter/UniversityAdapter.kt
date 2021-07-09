@@ -1,6 +1,7 @@
-package com.example.universityincountries
+package com.example.universityincountries.adapter
 
 import android.content.Context
+import android.opengl.Visibility
 import android.os.AsyncTask
 
 
@@ -8,23 +9,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 
 
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.CoroutinesRoom.Companion.execute
+import com.example.universityincountries.R
+import com.example.universityincountries.model.University
+import com.example.universityincountries.offline.OfflineAdapter
 import com.example.universityincountries.room.UniversityDatabase
 import com.example.universityincountries.room.UniversityEntity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import java.lang.Exception
 
 class UniversityAdapter(val context: Context) :
     RecyclerView.Adapter<UniversityAdapter.UniversityViewHolder>() {
 
     var list: List<University> = listOf()
 
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UniversityViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UniversityViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
         return UniversityViewHolder(view)
     }
@@ -33,28 +35,56 @@ class UniversityAdapter(val context: Context) :
         val model = list[position]
 
         holder.name.text = model.name
-        holder.code.text = "(" + model.alpha_two_code + ")"
         holder.state.text = model.state_province
+        holder.code.text = "(" + model.alpha_two_code + ")"
         holder.country.text = model.country
 
 
-        holder.add.setOnClickListener {
 
 
-            val university = UniversityEntity(
-                position, model.name, model.state_province, model.country, model.alpha_two_code
-            )
-            saveUniversity(university, holder.add)
 
-        }
+
+
+            holder.add.setOnClickListener {
+                var stateChecked: String? = null
+
+                if (model.state_province != null) {
+                    stateChecked = model.state_province
+                } else {
+                    stateChecked = "No Value"
+                }
+
+                val university = UniversityEntity(
+                    model.id, model.name, stateChecked, model.country, model.alpha_two_code
+                )
+
+                try {
+
+                    saveUniversity(university, holder.add)
+
+
+                } catch (e: Exception) {
+                    Snackbar.make(holder.add, "Added", Snackbar.LENGTH_SHORT).show()
+
+                }
+
+
+            }
+
 
 
     }
 
-    fun saveUniversity(university: UniversityEntity, floatingActionButton: FloatingActionButton) {
+    private fun saveUniversity(
+        university: UniversityEntity,
+
+        floatingActionButton: FloatingActionButton
+    ) {
         class SaveU : AsyncTask<Void, Void, Void>() {
             override fun doInBackground(vararg params: Void?): Void? {
+
                 UniversityDatabase.getInstance(context).universityDAO.insertUniversity(university)
+
 
                 return null
             }
@@ -71,6 +101,7 @@ class UniversityAdapter(val context: Context) :
 
         SaveU().execute()
     }
+
 
 
     override fun getItemCount(): Int {
@@ -91,10 +122,5 @@ class UniversityAdapter(val context: Context) :
         this.list = uList;
         notifyDataSetChanged()
     }
-//    fun addData(listItems:List<University>){
-//        var size = this.listItems.size
-//        this.listItems.addAll(listItems)
-//        var sizeNew = this.listItems.size
-//        notifyItemRangeChanged(size,sizeNew)
-//    }
+
 }

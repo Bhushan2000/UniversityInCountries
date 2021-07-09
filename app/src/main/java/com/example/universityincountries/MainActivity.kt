@@ -6,19 +6,19 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
-import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.universityincountries.room.UniversityDatabase
-import com.example.universityincountries.room.UniversityEntity
+import com.example.mvvmapp.util.verifyAvailableNetwork
+import com.example.universityincountries.adapter.UniversityAdapter
+import com.example.universityincountries.offline.OfflineActivity
+import com.example.universityincountries.network.ApiService
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
@@ -27,12 +27,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var universityAdapter: UniversityAdapter
 
     lateinit var relativeLayout: RelativeLayout
-    lateinit var tvNoNetwork:TextView
-
-
-    // Paging
-    var isLoading: Boolean = false
-    var isLastPage: Boolean = false
+    lateinit var tvNoNetwork: TextView
 
     lateinit var actionBar: ActionBar
 
@@ -45,7 +40,6 @@ class MainActivity : AppCompatActivity() {
 
 
         tvNoNetwork = findViewById(R.id.tvNoNetwork)
-
         recyclerView = findViewById(R.id.recyclerView)
         relativeLayout = findViewById(R.id.relativeLayout)
         universityAdapter = UniversityAdapter(this)
@@ -144,13 +138,12 @@ class MainActivity : AppCompatActivity() {
 
 
         }
+
         return super.onOptionsItemSelected(item)
     }
 
-    fun verifyAvailableNetwork(activity: AppCompatActivity): Boolean {
-        val connnectivityManager =
-            activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = connnectivityManager.activeNetworkInfo
-        return networkInfo != null && networkInfo.isConnected
-    }
+
+
+
+
 }

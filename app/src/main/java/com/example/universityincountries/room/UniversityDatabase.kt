@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [UniversityEntity:: class] ,version = 1, exportSchema = false)
+@Database(entities = [UniversityEntity:: class] ,version = 1, exportSchema = true)
 abstract class UniversityDatabase: RoomDatabase() {
 
     abstract val universityDAO: UniversityDAO
@@ -23,7 +23,7 @@ abstract class UniversityDatabase: RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         UniversityDatabase::class.java,
-                        "subscriber_data_database"
+                        "UniversityEntity.db"
                     ).build()
                 }
                 return instance

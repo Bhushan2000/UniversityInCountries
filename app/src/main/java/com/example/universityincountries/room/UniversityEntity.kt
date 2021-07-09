@@ -8,12 +8,14 @@ import androidx.room.PrimaryKey
 data class UniversityEntity(
 
     @PrimaryKey(autoGenerate = true)
-    val id:Int,
+    @ColumnInfo(name = "id")
+    val id: Int,
 
     @ColumnInfo(name = "name")
     val name: String,
+
     @ColumnInfo(name = "state_province")
-    val state_province: String,
+    val state_province: String?,
 
     @ColumnInfo(name = "country")
     val country: String,

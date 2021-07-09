@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menuOffline"
-        android:title="Offline Countries"
+        android:title="Offline Data"
         app:showAsAction="never" />
+
 </menu>

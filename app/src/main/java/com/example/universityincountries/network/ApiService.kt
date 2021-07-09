@@ -1,7 +1,6 @@
-package com.example.universityincountries
+package com.example.universityincountries.network
 
-import okhttp3.ResponseBody
-import retrofit2.Call
+import com.example.universityincountries.model.University
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
