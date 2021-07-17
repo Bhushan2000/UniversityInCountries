@@ -1,5 +1,5 @@
 # UniversityInCountries
-It is simple application that Fetches JSON Response display it and store it Offline using Room Persistent Library.
+It is simple application that Fetches JSON Response using Retrofit & display it and store it Offline using Room Persistent Library.
 
 
 
